@@ -3,21 +3,8 @@ import path from "path";
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import cors from "cors";
+import { usersTable } from "./db/schema";
 require("dotenv").config();
-import { text, integer, sqliteTable } from "drizzle-orm/sqlite-core";
-import { sql } from "drizzle-orm";
-
-const users = sqliteTable("users", {
-  id: text("id"),
-  firstName: text("first_name"),
-  lastName: text("last_name"),
-  textModifiers: text("text_modifiers")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-  intModifiers: integer("int_modifiers", { mode: "boolean" })
-    .notNull()
-    .default(false),
-});
 
 export const client = createClient({
   url: process.env.TURSO_DATABASE_URL || "",
@@ -30,7 +17,7 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // An API endpoint that returns some data
 app.get("/api/data", async (req: Request, res: Response) => {
-  const data = await db.select().from(users).all();
+  const data = await db.select().from(usersTable).all();
   console.log("DATA", data);
   res.json({ data: data });
 });
