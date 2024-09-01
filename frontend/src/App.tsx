@@ -14,7 +14,7 @@ function App() {
       <h1>Turso Database Data</h1>
       <ul>
         {data.map((user: any) => (
-          <li>{user.first_name}</li>
+          <li>{user.firstName}</li>
         ))}
       </ul>
     </div>
